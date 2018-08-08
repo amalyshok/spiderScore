@@ -1,0 +1,15 @@
+{
+  "name": "spiderScore",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Парсер MyScore.com",
+  "permissions": [
+     "<all_urls>"
+   ],
+  "app": {
+      "launch": {
+         "local_path": "main.html"
+      }
+   },
+   "icons": { "48": "Spider-48.png" }
+}
