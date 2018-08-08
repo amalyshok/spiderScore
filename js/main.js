@@ -31,26 +31,52 @@ function ajaxStop(){
 // запуск парсера
 function parserGo(){
   ajaxStart();
-  var b = $.ajax('https://www.sports.ru/stat/football/russia/'); 
+  // цепочка промисов 
+  var promise = new Promise(function(resolve, reject) {
+	var b = $.ajax('https://www.sports.ru/stat/football/russia/');
+	resolve(b);
+});
+  var promise2 = new Promise(function(resolve, reject) {
+	var c = $.ajax('https://www.sports.ru/rfpl/fouls/?s=yellow_cards');
+	resolve(c);
+});
+
+promise.then(d => 
+		{ analysScores(d); 
+		  checkScores(); 
+		  return promise2;
+		  }, 
+		error => alert('Ошибка загрузки')).then(dat => 
+											{	ajaxStop();
+												checkCards();});
+
+ /* var b = $.ajax('https://www.sports.ru/stat/football/russia/'); 
     b.done(function (d) {
 	//	Data = d;
-	analysisSite(d);
-	checkScores();
+	analysScores(d);
+	checkScores(); 
   });
   b.fail(function (e, g, f) {
-    alert('Epic Fail');
+    alert('Если ваш интернет работает исправно, то проблема на стороне сервера статистики. Попробуйте позже');
     ajaxStop();
-  })
+  }) */
+  
+  
 }
 // функция обработки полученного результата
-function analysisSite(data){  
-	console.log(typeof data);
-    ajaxStop();
+function analysScores(data){
 	let result = data.slice(data.match(/Следующие/i).index+13, data.match(/Тренды/i).index);
 	Data = result;
 	$('#temp').html(result);
 	$('#temp').hide();
 }
+
+function analysCards(data) {
+	Data = data;
+	$('#temp').html(Data);
+	$('#temp').hide();
+}
+
 // срабатывает при запуске расширения
 $(function(){
   $('#progress').hide();
@@ -90,10 +116,11 @@ function checkScores() {
 }
 
 // выводит в консоль всю статистику по имени команды и таблице common, home, guest, now
+// заебался учитывать регистр. теперь имя не учитывает регистр
 function showStats(name, loc = 'common') {
 	name = name.toLowerCase();
-	if (name == 'ЦСКА') name = name.toUpperCase(); else name = name[0].toUpperCase() + name.slice(1)
-	// заебался учитывать регистр. теперь имя не учитывает регистр 
+	if (name == 'ЦСКА') name = name.toUpperCase(); else name = name[0].toUpperCase() + name.slice(1);
+	
 	if (checkIndex(name, loc) != -1) {
 		let team = stats[loc][checkIndex(name, loc)];
 		for (let i = 0; i < team.length; i++) {
@@ -111,6 +138,9 @@ function checkIndex (name, loc = 'common') {
 	return -1;
 }
 
+function checkCards() {
+	console.log('я выполнилась');
+}
 
 
 
@@ -122,9 +152,27 @@ function checkIndex (name, loc = 'common') {
 
 
 
+// цепочка промисов 
+/*
+var promise = new Promise(function(resolve, reject) {
+	var b = $.ajax('https://www.sports.ru/stat/football/russia/');
+	resolve(b);
+}
 
-
-
+promise.then(d => { analysScores(d); checkScores(); }, error => alert('Ошибка загрузки'));
+	
+	
+	
+				b = $.ajax('https://www.sports.ru/rfpl/fouls/?s=yellow_cards');
+				
+				analysCards(d);
+				checkCards();
+  });
+  b.fail(function (e, g, f) {
+    alert('Если ваш интернет работает исправно, то проблема на стороне сервера статистики. Попробуйте позже');
+    ajaxStop();
+  })
+*/
 
 
 
