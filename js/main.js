@@ -39,7 +39,7 @@ function parserGo() {
         var b2 = $.ajax('https://www.sports.ru/rfpl/fouls/?s=yellow_cards');
         resolve(b2);
     });
-	var promise3 = new Promise(function(resolve, reject) {
+    var promise3 = new Promise(function(resolve, reject) {
         var b3 = $.ajax('https://www.sports.ru/rfpl/fouls/?p=2&s=yellow_cards&d=1&season=6886');
         resolve(b3);
     });
@@ -51,15 +51,14 @@ function parserGo() {
             return promise2;
         },
         error => alert('Ошибка загрузки')).then(d => {
-        ajaxStop();
-		analysCards(d);
+        analysCards(d);
         checkCards();
-		return promise3;
+        return promise3;
     }, error => alert('Ошибка загрузки')).then(d => {
-        ajaxStop();
-		analysCards(d);
+        analysCards(d);
         checkCards();
-	});
+        ajaxStop();
+    });
 }
 
 // функция обработки полученного результата
@@ -71,11 +70,11 @@ function analysScores(data) {
 }
 
 function analysCards(data) {
-	let result = data.slice(data.match(/следующие/i).index + 12, data.match(/Тренды/i).index);
+    let result = data.slice(data.match(/следующие/i).index + 12, data.match(/Тренды/i).index);
     Data = result;
     $('#temp').html(Data);
     $('#temp').hide();
-	//$('#resultbox').html(Data);
+    //$('#resultbox').html(Data);
 }
 
 // срабатывает при запуске расширения
@@ -118,14 +117,14 @@ function checkScores() {
 
 
 function checkCards() {
-	let table = document.body.querySelector('tbody');
-	let team = stats.common;
-	/*table.rows[0].cells[2].querySelector('a').text; // команда
-	table.rows[0].cells[4].textContent; // ЖК
-	table.rows[0].cells[5].textContent; // КК */
-	for (let i = 0; i < table.rows.length; i++) {
-	addCards($.trim(table.rows[i].cells[2].textContent), $.trim(table.rows[i].cells[4].textContent), $.trim(table.rows[i].cells[5].textContent)); 
-	}
+    let table = document.body.querySelector('tbody');
+    let team = stats.common;
+    /*table.rows[0].cells[2].querySelector('a').text; // команда
+    table.rows[0].cells[4].textContent; // ЖК
+    table.rows[0].cells[5].textContent; // КК */
+    for (let i = 0; i < table.rows.length; i++) {
+        addCards($.trim(table.rows[i].cells[2].textContent), $.trim(table.rows[i].cells[4].textContent), $.trim(table.rows[i].cells[5].textContent));
+    }
     console.log('я выполнилась');
 }
 
@@ -153,22 +152,23 @@ function checkIndex(name, loc = 'common') {
     return -1;
 }
 // добавляет новый параметр в статистику коллекции по имени команды и таблице
-function addStats (name, stat, loc = 'common') {
-	stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length] = stat;
-	stats[loc][checkIndex(name, loc)].length++;
+function addStats(name, stat, loc = 'common') {
+    stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length] = stat;
+    stats[loc][checkIndex(name, loc)].length++;
 }
 // добавлялка карточек
-function addCards (name, yelCards, redCards, loc = 'common') {
-	if (yelCards == '–') yelCards = 0; if (redCards == '–') redCards = 0;
-	if (stats[loc][checkIndex(name, loc)].length <= 8) {
-	stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length] = +yelCards;
-	stats[loc][checkIndex(name, loc)].length++;
-	stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length] = +redCards;
-	stats[loc][checkIndex(name, loc)].length++;
-	} else {
-		stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length-2] += +yelCards;
-		stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length-1] += +redCards;
-	}
+function addCards(name, yelCards, redCards, loc = 'common') {
+    if (yelCards == '–') yelCards = 0;
+    if (redCards == '–') redCards = 0;
+    if (stats[loc][checkIndex(name, loc)].length <= 8) {
+        stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length] = +yelCards;
+        stats[loc][checkIndex(name, loc)].length++;
+        stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length] = +redCards;
+        stats[loc][checkIndex(name, loc)].length++;
+    } else {
+        stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length - 2] += +yelCards;
+        stats[loc][checkIndex(name, loc)][stats[loc][checkIndex(name, loc)].length - 1] += +redCards;
+    }
 }
 
 
@@ -187,4 +187,3 @@ while (Data.search(/Следующие 50/i)) {
 
 }
 */
-
