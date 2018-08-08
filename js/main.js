@@ -14,7 +14,9 @@ let descript = {
 	3 : 'Проигрыши',
 	4 : 'Забитo',
 	5 : 'Пропущено',
-	6 : 'Очки'
+	6 : 'Очки',
+	7 : 'Желтые карточки',
+	8 : 'Kрасные карточки'
 }
 
 function ajaxStart(){
@@ -87,10 +89,27 @@ function checkScores() {
 	}
 }
 
+// выводит в консоль всю статистику по имени команды и таблице common, home, guest, now
+function showStats(name, loc = 'common') {
+	name = name.toLowerCase();
+	if (name == 'ЦСКА') name = name.toUpperCase(); else name = name[0].toUpperCase() + name.slice(1)
+	// заебался учитывать регистр. теперь имя не учитывает регистр 
+	if (checkIndex(name, loc) != -1) {
+		let team = stats[loc][checkIndex(name, loc)];
+		for (let i = 0; i < team.length; i++) {
+		console.log(`${descript[i]} : ${team[i]} ;`); // перебор значений. сюда пихать их обработчик
+		}
+	} else 
+		console.log('Команды с данным именем не найдено');
+}
 
-
-
-
+// поиск индекса массива в таблице common, home, guest, now по названию команды
+function checkIndex (name, loc = 'common') {
+	for (let i = 0; i <= 15; i++) {
+		if (stats[loc][i].name == name) return i;
+	}
+	return -1;
+}
 
 
 
