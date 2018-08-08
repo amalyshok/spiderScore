@@ -2,7 +2,7 @@
   "name": "spiderScore",
   "version": "0.1",
   "manifest_version": 2,
-  "description": "Парсер MyScore.com",
+  "description": "Спортивная аналитика РФПЛ",
   "permissions": [
      "<all_urls>"
    ],
@@ -11,8 +11,6 @@
          "local_path": "main.html"
       }
    },
-   "icons": { "48": "Spider-48.png" },
-   "web_accessible_resources" : [ "js/jquery-1.7.2.min.js", "js/main.js" ],
-   "content_scripts": [{"matches": [ "<all_urls>" ], "js": [ "js/jquery-1.7.2.min.js", "js/main.js" ] }]
+   "icons": { "48": "Spider-48.png" }
 }
 
