@@ -1,0 +1,19 @@
+{
+  "name": "react-ru-tutorial",
+  "version": "1.0.0",
+  "description": "React RU tutorial",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Maxim Patsianskiy",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.16.3"
+  },
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "reactstrap": "^6.3.1"
+  }
+}
