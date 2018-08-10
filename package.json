@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node server.js"
   },
-  "author": "Maxim Patsianskiy",
+  "author": "Timur Yegemberdiyev",
   "license": "MIT",
   "devDependencies": {
+    "babel-install": "2.1.0",
     "express": "^4.16.3"
   },
   "dependencies": {
